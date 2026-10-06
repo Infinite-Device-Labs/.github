@@ -1,0 +1,11 @@
+{
+  "config": {
+    // GitHub renders a README's centred header only as inline HTML, and the
+    // org profile opens with one instead of a Markdown heading.
+    "MD033": false,
+    "MD041": false,
+    // Prettier owns line wrapping.
+    "MD013": false,
+  },
+  "ignores": ["node_modules/**"],
+}

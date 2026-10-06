@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "leal-software": {
+      "source": {
+        "source": "github",
+        "repo": "LealSoftware/claude-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "workflow@leal-software": true
+  }
+}

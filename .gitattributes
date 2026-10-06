@@ -1,0 +1,2 @@
+# LF everywhere, whatever core.autocrlf says: the hooks are bash, and CI is Linux.
+* text=auto eol=lf
