@@ -3,9 +3,10 @@
 
     check-claude-md.py [--max-lines 200]
 
-Copied from the workflow plugin's justfile-conventions template
-(LealSoftware/claude-plugins). Never edit it here: change it there and copy
-it back. A repo with a reason for a bigger root file passes --max-lines.
+Copied from the shared workflow plugin's justfile-conventions template.
+Never edit it here: change it there and copy it back. A repo with a reason
+for a bigger root file passes --max-lines. `--version` says which version
+of the script a copy is.
 
 For every tracked or new CLAUDE.md and SKILL.md:
 
@@ -19,9 +20,6 @@ For every tracked or new CLAUDE.md and SKILL.md:
 - an @-import in a CLAUDE.md. Imports load eagerly at session start, so
   importing sharded files back undoes the sharding while the file still
   looks short. Refer to other docs by plain path instead.
-
-Merges enquiries-service's claude-md-budget and server-playbook's
-check_claude_md_size.py, which grew up separately.
 """
 import argparse
 import pathlib
@@ -30,6 +28,7 @@ import subprocess
 import sys
 
 SKILL_MAX = 500
+__version__ = "0.21.0"
 TODO_RE = re.compile(r"^#+\s*to-?do\b", re.I | re.M)
 # `@` at line start or after whitespace, then something path-shaped. Not
 # `pkg@1.2`, an email address or a DNS selector, all preceded by a non-space.
@@ -44,6 +43,7 @@ def strip_code(text):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--version", action="version", version=f"check-claude-md {__version__}")
     ap.add_argument("--max-lines", type=int, default=200)
     args = ap.parse_args()
 
@@ -72,7 +72,7 @@ def main():
                                 "session start. Refer to the file by plain path")
     for p in problems:
         print(p, file=sys.stderr)
-    print(f"check-claude-md: {len(files)} file(s), {len(problems)} problem(s)")
+    print(f"check-claude-md {__version__}: {len(files)} file(s), {len(problems)} problem(s)")
     return 1 if problems else 0
 
 

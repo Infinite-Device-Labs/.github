@@ -12,7 +12,7 @@ Everything here is world-readable. Don't put anything internal in it.
 
 ## What doesn't live here
 
-- **Repo settings and labels:** server-playbook's `github_repos` role.
+- **Repo settings and labels:** the org's repository-settings automation.
 - **CI, hooks, Dependabot and the commit conventions:** the `workflow` plugin's
   template, copied into each repo by its `new-repo` skill.
 - **Issue and PR templates, `CONTRIBUTING`, code of conduct:** deliberately

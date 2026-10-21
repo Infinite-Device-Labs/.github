@@ -1,7 +1,7 @@
 # .github: every command this repo has. `just` with no arguments lists them.
 #
-# Started from the workflow plugin's justfile-conventions template
-# (LealSoftware/claude-plugins). This file is the repo's own, so adapt it.
+# Started from the shared workflow plugin's justfile-conventions template.
+# This file is the repo's own, so adapt it.
 # scripts/check-commits.py, scripts/check-claude-md.py and .githooks/ are
 # copies of the template's and are never edited here: change them in the
 # template and copy them back, so every repo checks the same way.
@@ -47,23 +47,13 @@ verify-all: format-check lint lint-commits scan-secrets check-claude-md
 # --- Shipping --------------------------------------------------------------
 
 # Once per clone. GitHub's free plan has no branch protection on private
-# repos, so these hooks and pr-merge are what refuse a commit or push to
-# main or staging. See .githooks/ for the escape hatches.
+# repos, so these hooks and the merge on green are what refuse a commit or
+# push to main or staging. See .githooks/ for the escape hatches.
 [doc("Install the git hooks: no commits on main/staging, verify-all before a push")]
 install-hooks:
     git config core.hooksPath .githooks
     @echo "installed: pre-commit refuses commits on main and staging"
     @echo "installed: pre-push refuses pushes to them, then runs just verify-all (SKIP_VERIFY=1 skips the checks)"
-
-# The shared script, from the installed workflow plugin rather than a copy:
-# it runs only on a developer's machine, never in CI.
-[doc("Merge a PR on green with a merge commit, then remove its worktree and branches")]
-pr-merge +args:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    script="$HOME/.claude/plugins/marketplaces/leal-software/plugins/workflow/skills/ship-change/scripts/pr-merge.sh"
-    [ -f "$script" ] || { echo "pr-merge: install the workflow plugin first: claude plugin marketplace add LealSoftware/claude-plugins && claude plugin install workflow@leal-software" >&2; exit 1; }
-    exec bash "$script" {{ args }}
 
 # --- The stack: documentation only (Markdown) ------------------------------
 # markdownlint for structure, Prettier for formatting, both
