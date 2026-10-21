@@ -1,7 +1,10 @@
 #!/usr/bin/env sh
 # Installed by `just install-hooks`, which points core.hooksPath here.
-# Copied from the workflow plugin's justfile-conventions template
-# (LealSoftware/claude-plugins); never edit it here.
+# Copied from the shared workflow plugin's justfile-conventions template;
+# never edit it here.
+# Its own version, raised when it changes, so the session-wrap-up sweep can
+# tell a stale copy from a current one:
+# __version__ = "0.21.0"
 #
 # GitHub's free plan offers no branch protection on a private repository, so
 # nothing server-side can refuse a push that breaks `main`. This hook and the
@@ -25,7 +28,8 @@ while read -r _local_ref _local_sha remote_ref _remote_sha; do
 pre-push: refusing to push to ${remote_ref#refs/heads/}.
 
 It changes only by merging a pull request. Push your branch and open one,
-then merge it with \`just pr-merge <branch>\`.
+then merge it once its checks pass (\`just pr-merge <branch>\`, where the
+repo has that recipe).
 
 (\`git push --no-verify\` overrides this, deliberately.)
 MSG
@@ -38,6 +42,13 @@ if [ -n "${SKIP_VERIFY:-}" ]; then
     echo "pre-push: SKIP_VERIFY set, skipping just verify-all" >&2
     exit 0
 fi
+
+# Git exports GIT_DIR (and, for some hooks, GIT_INDEX_FILE) to a hook run
+# from a worktree. Left set, any `git` the gate runs in another directory,
+# such as a test's throwaway repo, acts on this repository instead: on
+# 2026-10-21 one re-initialised it as bare and committed onto the branch.
+# shellcheck disable=SC2046
+unset $(git rev-parse --local-env-vars)
 
 echo "pre-push: running just verify-all (SKIP_VERIFY=1 to bypass)" >&2
 just verify-all

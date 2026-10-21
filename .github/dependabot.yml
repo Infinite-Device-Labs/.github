@@ -1,7 +1,7 @@
 # Dependabot version updates. Goes to .github/dependabot.yml.
 #
-# Started from the workflow plugin's justfile-conventions template
-# (LealSoftware/claude-plugins). This file is the repo's own.
+# Started from the shared workflow plugin's justfile-conventions template.
+# This file is the repo's own.
 #
 # Without it there are no version updates at all, only security alerts.
 # Weekly, not daily: a PR every morning is how you teach yourself to stop

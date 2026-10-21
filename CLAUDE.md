@@ -15,15 +15,15 @@ description there. If a command has no recipe, add one.
 **`just verify-all` is the gate**, and CI runs exactly it on every push.
 Run it before calling a change done. **`just install-hooks` once per
 clone**: the hooks refuse commits and pushes to `main` and run
-`verify-all` before a push. Merge with **`just pr-merge <branch>`**, which
-waits for green. `scripts/check-*.py` and `.githooks/` are copies of the
-workflow plugin's template: never edit them here.
+`verify-all` before a push. Merge on green, with a merge commit.
+`scripts/check-*.py` and `.githooks/` are copies of the workflow plugin's
+template: never edit them here.
 
 ## What belongs here
 
 - **Only files GitHub reads from `.github`.** Repo settings and labels are
-  server-playbook's `github_repos` role; CI, hooks and conventions are the
-  workflow plugin's.
+  the org's repository-settings automation; CI, hooks and conventions are
+  the workflow plugin's.
 - **No org-wide issue or PR templates, `CONTRIBUTING` or code of conduct**,
   by decision: almost every issue and PR is made through `gh`, and a repo
   with anything in its own `ISSUE_TEMPLATE/` silently loses all the defaults.

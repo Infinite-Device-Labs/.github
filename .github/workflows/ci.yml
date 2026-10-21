@@ -1,14 +1,14 @@
 # Runs `just verify-all`, the same gate as a local run and the pre-push hook,
 # on every push. Goes to .github/workflows/ci.yml.
 #
-# Started from the workflow plugin's justfile-conventions template
-# (LealSoftware/claude-plugins). This file is the repo's own: add the stack's
-# setup step below and leave the rest alone.
+# Started from the shared workflow plugin's justfile-conventions template.
+# This file is the repo's own: add the stack's setup step below and leave
+# the rest alone.
 #
 # `push` with no branch filter and no `pull_request`: a branch is checked
 # before it has a PR, a PR doesn't run twice, and the push run still shows
-# on the PR. It reports a red branch rather than blocking a merge;
-# `just pr-merge` is what waits for green.
+# on the PR. It reports a red branch rather than blocking a merge, so the
+# merger waits for green.
 name: CI
 
 on:
